@@ -21,7 +21,7 @@ public Plugin:myinfo =
 public void OnPluginStart()
 {
 	RegexIP = CompileRegex("\\d+\\.\\d+\\.\\d+\\.\\d+(:\\d+)?");
-	CVAR_AllowBadCount = CreateConVar("sm_console_print_badcount", "3", "");
+	CVAR_AllowBadCount = CreateConVar("sm_console_print_badcount", "3", "0 = Disable");
 }
 
 
@@ -64,7 +64,7 @@ int FindClientByIP(const char[] sIP,int iError = 0)
 				BadCount[i]++;
 				LogMessage("client %N(%s) IP:%s BadCount:%d BadWordIndex:%d",i,sauthid,TempIPPort,BadCount[i],iError)
 				
-				if(BadCount[i] >= CVAR_AllowBadCount.IntValue)
+				if(BadCount[i] >= CVAR_AllowBadCount.IntValue && CVAR_AllowBadCount.IntValue != 0)
 				{
 					if (!IsClientInKickQueue(i)) {
 						KickClient(i, "Voice Error");
